@@ -1,0 +1,40 @@
+;; Files parameters:
+input_bonds     BONDS.txt
+input_angles     ANGL.txt
+input_coord     COORD.txt
+output_coord    COORD.out
+output_pdb      out.pdb
+period_pdb      10
+type_init       new
+
+;; Ensemble of molecules
+size_area       9
+m_mol           16
+
+;;; Self-consistent parameters:
+nsted_scf       100
+num_layer_y     100
+regulsation     0.1
+lambda_fh       0.166666666
+; polymer-solvent
+chi             0.5
+; electrostatic
+alpha           0.001
+lattice_size    3.1e-10
+epsilon_medium  80
+phibulk_salt    0.01
+
+;;;  Brownian Dynamics parameters:
+nstep_bd        100
+dt              0.0005
+kBT             1.0
+viscosity       1.0
+flow_velocity   0.1
+; bond interactions
+l_bond          1.0
+k_bond          1000.0
+theta_0         104.9
+k_theta         10.0
+di_A		1.0
+non_val_int_e	1.0
+r_cut		2.8

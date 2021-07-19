@@ -1,0 +1,19 @@
+﻿  brownianDynamics.cpp
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,44): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,56): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,74): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,61): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,109): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,96): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,142): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(33,127): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(183,101): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(184,102): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(278,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(279,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(280,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(281,31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(583,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(594,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\HitenG2\source\repos\brownianDynamics\brownianDynamics.cpp(625,20): warning C4244: 'argument': conversion from 'double' to 'const unsigned int', possible loss of data
+  brownianDynamics.vcxproj -> C:\Users\HitenG2\source\repos\brownianDynamics\Debug\brownianDynamics.exe
