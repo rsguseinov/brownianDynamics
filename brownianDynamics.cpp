@@ -1,5 +1,3 @@
-//#include "pch.h"
-//#include "stdafx.h"
 #include <locale>
 #include <fstream>
 #include <string>
@@ -31,17 +29,13 @@ struct Atom
 	double x, y, z;
 };
 const float pi = 3.141592653589793238462643, T = 298.15, Kb = 1.38065812 * pow(10, -23), eps_0 = 8.85418785 * pow(10, -12), q = 1.6021773349 * pow(10, -19);
-//double normalRand();
-//double RandomFloat();
 class Brownian_Dynamics
 {
 private:
-	vector<Atom> data_atoms; //вектор для хранения: 1.данных об атоме (координаты, номер атома)
-	vector<Bond> data_bonds; //2.связных ч-иц
-	vector<Angle> data_angles;
-	//vector<Unbond> data_unbonds;//3.НЕсвязных ч-иц
+	vector<Atom> data_atom
+	vector<Bond> data_bond
+	vector<Angle> data_angle
 	vector<Distance> data_Dist_bonds;
-	//vector<Distance> data_Dist_unbonds;
 	vector<double> Fbond_conn;
 	vector<double> Fx0conn, Fy0conn, Fz0conn;
 	vector<double> Funbond_disconn;
@@ -68,15 +62,10 @@ private:
 	void SetResize_vectors()
 	{
 		data_Dist_bonds.resize(n_bonds);
-		//data_Dist_unbonds.resize(n_unbonds);
 		Fbond_conn.resize(n_bonds);
 		Fx0conn.resize(n_atoms);
 		Fy0conn.resize(n_atoms);
 		Fz0conn.resize(n_atoms);
-		//Funbond_disconn.resize(n_unbonds);
-		//Fx0disconn.resize(n_atoms);
-		//Fy0disconn.resize(n_atoms);
-		//Fz0disconn.resize(n_atoms);
 		Fx.resize(n_atoms);
 		Fy.resize(n_atoms);
 		Fz.resize(n_atoms);
@@ -109,7 +98,7 @@ private:
 	{
 		return (double)rand() / RAND_MAX;
 	}
-	double normalRand() //расчет случайного числа от -1 до 1
+	double normalRand()
 	{
 		static bool bgen = true;
 		static double z0, z1;
@@ -134,7 +123,6 @@ private:
 		}
 	}
 public:
-	// Печатаем pdb-файл
 	void SetPrint_file(int t)
 	{
 		char Name[4] = "N  ";
@@ -164,16 +152,12 @@ public:
 		fprintf(hfile, "ENDMDL\n");
 		fclose(hfile);
 	}
-	//Перемещение частиц
 	void SetMove_corpuscle(int j, int k)
 	{
 		double lyambda = sqrt(2.0 * KbT * dt / viscFric);
 		int counter = 0;
 		for (int i = 0; i < n_atoms; ++i)
 		{
-			/*if (j >= 1 && k >= 350 && i >= 93) {
-				cout << "Шаг Hybrid: " << k << "      Шаг Brownian: " << j << "      Внутренний шаг мув корпускул: " << i << endl;
-			}*/
 			if ((i == vetki[counter]) || !i)
 			{
 				if (i && (counter + 1 != vetki.size())) counter++;
@@ -186,7 +170,6 @@ public:
 			}
 		}
 	}
-	//Подсчёт суммарной силы, действующей на ч-цу со стороны остальных.
 	void SetSumm_F()
 	{
 		for (int i = 0; i < n_atoms; ++i)
@@ -196,22 +179,6 @@ public:
 			Fz[i] = Fz0conn[i] + Fz0disconn[i];
 		}
 	}
-	/*void SetFunbond() {
-		for (int i = 0; i < n_atoms; ++i) { //зануление сил
-			Fx0disconn[i] = Fy0disconn[i] = Fz0disconn[i] = 0;
-		}
-		for (int i = 0; i < n_unbonds; ++i) {
-			if (data_Dist_unbonds[i].R < diA*pow(2, 1.0 / 6)) Funbond_disconn[i] = 4 * eps*(-12 * (pow(diA, 12) / pow(data_Dist_unbonds[i].R, 13)) + 6 * (pow(diA, 6) / pow(data_Dist_unbonds[i].R, 7)));
-			else if (data_Dist_unbonds[i].R > diA*pow(2, 1.0 / 6) && data_Dist_unbonds[i].R <= rcut) Funbond_disconn[i] = solvent * diA*(1 / data_Dist_unbonds[i].R + 2 / pow(rcut, 2) - 3 * pow(data_Dist_unbonds[i].R, 2) / pow(rcut, 4));
-			Funbond_disconn[i] = Funbond_disconn[i] / data_Dist_unbonds[i].R; //делим на расстояние
-			Fx0disconn[data_unbonds[i].left - 1] = Fx0disconn[data_unbonds[i].left - 1] - Funbond_disconn[i] * data_Dist_unbonds[i].x;
-			Fx0disconn[data_unbonds[i].right - 1] = Fx0disconn[data_unbonds[i].right - 1] + Funbond_disconn[i] * data_Dist_unbonds[i].x;
-			Fy0disconn[data_unbonds[i].left - 1] = Fy0disconn[data_unbonds[i].left - 1] - Funbond_disconn[i] * data_Dist_unbonds[i].y;
-			Fy0disconn[data_unbonds[i].right - 1] = Fy0disconn[data_unbonds[i].right - 1] + Funbond_disconn[i] * data_Dist_unbonds[i].y;
-			Fz0disconn[data_unbonds[i].left - 1] = Fz0disconn[data_unbonds[i].left - 1] - Funbond_disconn[i] * data_Dist_unbonds[i].z;
-			Fz0disconn[data_unbonds[i].right - 1] = Fz0disconn[data_unbonds[i].right - 1] + Funbond_disconn[i] * data_Dist_unbonds[i].z;
-		}
-	}*/
 	void SetFsurface()
 	{
 		for (int i = 0; i < n_atoms; ++i)
@@ -254,13 +221,13 @@ public:
 	void SetFbond()
 	{
 		for (int i = 0; i < n_atoms; ++i)
-		{ //зануление сил
+		{
 			Fx0conn[i] = Fy0conn[i] = Fz0conn[i] = 0;
 		}
 		for (int i = 0; i < n_bonds; ++i)
 		{
 			Fbond_conn[i] = Kbond * (data_Dist_bonds[i].R - Lb);
-			Fbond_conn[i] = Fbond_conn[i] / data_Dist_bonds[i].R; //аналогично с Funbond
+			Fbond_conn[i] = Fbond_conn[i] / data_Dist_bonds[i].R; //Г Г­Г Г«Г®ГЈГЁГ·Г­Г® Г± Funbond
 			Fx0conn[data_bonds[i].left - 1] = Fx0conn[data_bonds[i].left - 1] - Fbond_conn[i] * data_Dist_bonds[i].x;
 			Fx0conn[data_bonds[i].right - 1] = Fx0conn[data_bonds[i].right - 1] + Fbond_conn[i] * data_Dist_bonds[i].x;
 			Fy0conn[data_bonds[i].left - 1] = Fy0conn[data_bonds[i].left - 1] - Fbond_conn[i] * data_Dist_bonds[i].y;
@@ -269,10 +236,8 @@ public:
 			Fz0conn[data_bonds[i].right - 1] = Fz0conn[data_bonds[i].right - 1] + Fbond_conn[i] * data_Dist_bonds[i].z;
 		}
 	}
-	//Расстояние между i и j частицей для связных
 	void SetDistance_ij()
-	{ //Расстояние между i и j частицей.
-//для связных
+	{ 
 		for (int i = 0; i < n_bonds; ++i)
 		{
 			data_Dist_bonds[i].x = data_atoms[data_bonds[i].left - 1].x - data_atoms[data_bonds[i].right - 1].x;
@@ -280,13 +245,6 @@ public:
 			data_Dist_bonds[i].z = data_atoms[data_bonds[i].left - 1].z - data_atoms[data_bonds[i].right - 1].z;
 			data_Dist_bonds[i].R = sqrt(pow(data_Dist_bonds[i].x, 2) + pow(data_Dist_bonds[i].y, 2) + pow(data_Dist_bonds[i].z, 2));
 		}
-		//для несвязных
-		/*for (int i = 0; i < n_unbonds; ++i) {
-			data_Dist_unbonds[i].x = data_atoms[data_unbonds[i].left - 1].x - data_atoms[data_unbonds[i].right - 1].x;
-			data_Dist_unbonds[i].y = data_atoms[data_unbonds[i].left - 1].y - data_atoms[data_unbonds[i].right - 1].y;
-			data_Dist_unbonds[i].z = data_atoms[data_unbonds[i].left - 1].z - data_atoms[data_unbonds[i].right - 1].z;
-			data_Dist_unbonds[i].R = sqrt(pow(data_Dist_unbonds[i].x, 2) + pow(data_Dist_unbonds[i].y, 2) + pow(data_Dist_unbonds[i].z, 2));
-		}*/
 	}
 	void SetPar_for_brown()
 	{
@@ -338,54 +296,13 @@ public:
 		surf_area = size_area * size_area * m_mol;
 		f = (q * q) / (epsilon_medium * eps_0 * lattice_size * Kb * T);
 	}
-	/*void SetDisconn_list() {
-		int n_all_true = n_atoms * (n_atoms - 1); //число несвязных частиц (НЧ) БЕЗ учёта симметрии
-		n_unbonds = (n_all_true - 2 * n_bonds) / 2; // с учётом симметрии.
-		data_unbonds.resize(n_all_true);
-		int number_l = 1, number_r = 1;
-		for (int i = 1; i < n_all_true + 1; ++i) { //заполнение списка НЧ от от 1 до 10
-			if (number_l == n_atoms) break;
-			data_unbonds[i - 1].left = number_l;
-			data_unbonds[i - 1].right = number_r;
-			++number_r;
-			if (data_unbonds[i - 1].right == n_atoms) {
-				++number_l;
-				number_r = 1;
-			}
-		}
-		for (int i = 0; i < data_unbonds.size(); ++i) { //отсеивание от списка связных частиц
-			for (int j = 0; j < n_bonds; ++j) {
-				if ((data_unbonds[i].right == data_bonds[j].right && data_unbonds[i].left == data_bonds[j].left) || data_unbonds[i].right == data_bonds[j].left && data_unbonds[i].left == data_bonds[j].right) {
-					data_unbonds.erase(data_unbonds.begin() + i);
-					--j;
-					if (j < -1) j = -1;
-				}
-				if (data_unbonds[i].left == data_unbonds[i].right) {
-					data_unbonds.erase(data_unbonds.begin() + i);
-					--j;
-					if (j < -1) j = -1;
-				}
-			}
-		}
-		for (int i = 0; i < data_unbonds.size(); ++i) {
-			for (int j = 1; j < data_unbonds.size(); ++j) {
-				if (data_unbonds[i].left == data_unbonds[j].right && data_unbonds[i].right == data_unbonds[j].left) {
-					data_unbonds.erase(data_unbonds.begin() + i);
-					--j;
-					if (j < -1) j = -1;
-				}
-			}
-		}
-		if (n_unbonds != data_unbonds.size()) cout << "Ошибка составления списка несвязных частиц" << endl;
-	}*/
-	//Получение основных данных
 	void SetMaindata()
 	{
 		if (!type_init)
 		{
 			int left, right;
 			string name_bond, name_atom;
-			ifstream infile_bonds(BONDS, ifstream::in); //считывание связей
+			ifstream infile_bonds(BONDS, ifstream::in);
 			infile_bonds >> name_bond >> n_bonds >> name_atom >> n_atoms;
 			data_atoms.resize(n_atoms);
 			data_bonds.resize(n_bonds);
@@ -400,7 +317,7 @@ public:
 				data_bonds[i].right = right;
 			}
 			infile_bonds.close();
-			ifstream infile_coord(COORD, ifstream::in); //считывание координат
+			ifstream infile_coord(COORD, ifstream::in);
 			for (int i = 0; i < n_atoms; ++i)
 			{
 				data_atoms[i].n_atom = i + 1;
@@ -412,7 +329,7 @@ public:
 		{
 			int left, right;
 			string name_bond, name_atom;
-			ifstream infile_bonds(BONDS, ifstream::in); //считывание связей
+			ifstream infile_bonds(BONDS, ifstream::in);
 			infile_bonds >> name_bond >> n_bonds >> name_atom >> n_atoms;
 			int tempn_bonds = n_bonds;
 			int tempn_atoms = n_atoms;
@@ -452,13 +369,6 @@ public:
 
 				}
 			}
-			/*FILE *hfile_bonds;
-			hfile_bonds = fopen("TestBond.txt", "w");
-			fprintf(hfile_bonds, "n_bonds%5d\n", n_bonds);
-			for (int k = 0; k < n_bonds; k++) {
-				fprintf(hfile_bonds, "%5d%5d\n", data_bonds[k].left, data_bonds[k].right);
-			}
-			fclose(hfile_bonds);*/
 			for (int i = 0; i < n_atoms; ++i)
 			{
 				data_atoms[i].n_atom = i + 1;
@@ -501,7 +411,7 @@ public:
 			}
 			vetki.resize(counter);
 			int center;
-			ifstream infile_angle(ANGL, ifstream::in); //считывание связей
+			ifstream infile_angle(ANGL, ifstream::in);
 			string name;
 			center = 0, left = 0, right = 0;
 			infile_angle >> name >> num_angles;
@@ -538,13 +448,6 @@ public:
 
 				}
 			}
-			/*FILE *hfile;
-			hfile = fopen("TestANGL.txt", "w");
-			fprintf(hfile, "num_angles%5d\n", num_angles);
-			for (int k = 0; k < num_angles; k++) {
-				fprintf(hfile, "%5d%5d%5d\n", data_angles[k].left, data_angles[k].center, data_angles[k].right);
-			}
-			fclose(hfile);*/
 		}
 	}
 	void SetPhi_asterisk_Psi()
@@ -702,13 +605,11 @@ public:
 	}
 	void SetBrownian(int j, int i)
 	{
-		SetDistance_ij(); //Расстояние между i и j частицей.
-		SetFbond(); //сила между связными ч-ми
+		SetDistance_ij();
+		SetFbond(); 
 		SetAngleStrength();
 		SetFsurface();
-		//SetFunbond(); //сила между НЕсвязными ч-ми
-		//SetSumm_F(); //подсчёт суммарной силы действ. на ч-цу со стороны остальных
-		SetMove_corpuscle(j, i); //перемещение ч-иц
+		SetMove_corpuscle(j, i);
 	}
 	void SetHybrid_method()
 	{
@@ -721,7 +622,7 @@ public:
 			}
 			SetFinalDensity();
 			if (i % print_to_pdb == 0) SetPrint_file(i);
-			cout << i << endl; //для визуализации текущего шага в консоли
+			cout << i << endl;
 		}
 		output_data();
 	}
@@ -729,12 +630,10 @@ public:
 	{
 		SetPar_for_brown();
 		SetMaindata();
-		//SetDisconn_list();
 		SetResize_vectors();
 		SetPhi();
 		SetPhi_asterisk_Psi();
 	}
-
 };
 
 int main()
